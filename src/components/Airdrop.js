@@ -1,7 +1,12 @@
 import { Box, Grid, Card, Typography, TextField, Button } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 const Airdrop = () => {
+  const [newAddress, setNewAddress] = useState('');
+
+  const addToWhiteList = async () => {
+
+  }
   return (
     <Box
       sx={{
@@ -22,10 +27,10 @@ const Airdrop = () => {
               </Typography>
             </Box>
             <Box sx={{mt: '20px'}}>
-              <TextField variant='outlined' label='Input address' fullWidth/>
+              <TextField value={newAddress} onChange={e => setNewAddress(e.target.value)} variant='outlined' label='Input address' fullWidth/>
             </Box>
             <Box sx={{mt: '20px'}}>
-              <Button variant='contained' fullWidth>Add</Button>
+              <Button onClick={addToWhiteList} variant='contained' fullWidth>Add</Button>
             </Box>
           </Card>
         </Grid>
