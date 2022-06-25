@@ -4,8 +4,8 @@ import GAkita from '../contracts/GAkita.sol/GAkita.json';
 import Airdrop from '../contracts/AkitaAirdrop.sol/AkitaAirdrop.json';
 
 export const address = {
-  gtc: "0xafdC15eD96544f4Dc7bB3997f723A3F333eEE994",
-  airdrop: "0xfeaB072417019a9b2Dc1c6940c31845354a3d0E7"
+  gtc: "0xD0132ed340E8eB47A984EF9d69c292F7414eC8f2",
+  airdrop: "0x0100e4D763bA57C0DCAa5E3D4cBb5A51f65e2846"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
