@@ -11,7 +11,7 @@ import DaoPage from "./components/DaoPage";
 import Tutor from "./components/Tutor";
 import Promotions from "./components/Promotions";
 import Airdrop from "./components/Airdrop";
-import Bounty from "./components/Bounty";
+import IssueBounty from "./components/IssueBounty";
 import { useState } from "react";
 function App() {
   const [walletAddress, setWalletAddress] = useState();
@@ -39,7 +39,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/airdrop"/>} />
             <Route path="/airdrop" element={<Airdrop />} />
-            <Route path="/bounty" element={<Bounty walletAddress={walletAddress} />} />
+            <Route path="/issue" element={<IssueBounty walletAddress={walletAddress} />} />
           </Routes>
         </Box>
       </BrowserRouter>

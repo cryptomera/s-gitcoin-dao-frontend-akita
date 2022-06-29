@@ -34,7 +34,7 @@ const Header = ({ walletAddress, connectWallet }) => {
           <Link style={{color: 'white', textDecoration: 'none'}} to="/airdrop">Airdrop</Link>
         </Button>
         <Button>
-          <Link style={{color: 'white', textDecoration: 'none'}} to="/bounty">Bounty</Link>
+          <Link style={{color: 'white', textDecoration: 'none'}} to="/issue">Issue Bounty</Link>
         </Button>
       </Box>
       <Box sx={{ flexGrow: 1 }}></Box>

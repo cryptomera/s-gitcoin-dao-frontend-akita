@@ -1,17 +1,29 @@
 import { Grid, TextField, Typography, Card, Box, FormControl, InputLabel, Select, MenuItem, Button, IconButton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { bountyWeb3 } from '../utils/ethers.util';
+import { bounty, bountyWeb3 } from '../utils/ethers.util';
 import { address } from '../utils/ethers.util';
-const Bounty = ({walletAddress}) => {
+const IssueBounty = ({ walletAddress }) => {
   const [deadline, setDeadline] = useState('');
   const [tokenVersion, setTokenVersion] = useState(0);
   const [issuers, setIssures] = useState(['']);
   const [approvers, setApprovers] = useState(['']);
   const [token, setToken] = useState('');
+  const [bounties, setBounties] = useState('');
+
+  useEffect(() => {
+    async function getBounties() {
+      const numBounties = await bounty.numBounties();
+      for(let i = 0; i < numBounties.toNumber(); i++) {
+        const aBounty = await bounty.bounties(i);
+        console.log(aBounty);
+      }
+    }
+    getBounties();
+  }, []);
 
   const addNewIssuer = () => {
     setIssures([...issuers, '']);
@@ -53,13 +65,13 @@ const Bounty = ({walletAddress}) => {
   const issueBounty = async () => {
     const deadBlock = new Date(deadline).getTime() / 1000;
     let token1, token2;
-    if(tokenVersion === 0) {
+    if (tokenVersion === 0) {
       token1 = '';
       token2 = '';
     } else if (tokenVersion === 20) {
       token1 = address['gtc'];
       token2 = '';
-    } else if (tokenVersion === 10 ) {
+    } else if (tokenVersion === 10) {
       token2 = token;
       token1 = '';
     } else {
@@ -79,22 +91,24 @@ const Bounty = ({walletAddress}) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={4}>
+      <Grid item xs={3}>
+      </Grid>
+      <Grid item xs={6}>
         <Card
           sx={{
             p: '30px'
           }}
         >
           <Box
-            sx={{ 
+            sx={{
               mb: '30px',
-              display: 'flex' 
+              display: 'flex'
             }}
           >
             <Typography variant='h6' component='h6'>
               Issue Bounty
             </Typography>
-            <Box sx={{flexGrow: 1}}></Box>
+            <Box sx={{ flexGrow: 1 }}></Box>
             <Button onClick={issueBounty} variant='contained'>Issue Bounty</Button>
           </Box>
           <Box>
@@ -186,4 +200,4 @@ const Bounty = ({walletAddress}) => {
   );
 }
 
-export default Bounty;
+export default IssueBounty;
