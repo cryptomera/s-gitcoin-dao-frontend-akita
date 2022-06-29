@@ -121,7 +121,7 @@ const IssueBounty = ({ walletAddress }) => {
                 onChange={e => setTokenVersion(e.target.value)}
               >
                 <MenuItem value={0}>BNB</MenuItem>
-                <MenuItem value={20}>TOKEN</MenuItem>
+                <MenuItem value={20}>AKITA</MenuItem>
                 <MenuItem value={10}>BNB & TOKEN</MenuItem>
                 <MenuItem value={11}>AKITA & TOKEN</MenuItem>
               </Select>
@@ -133,7 +133,7 @@ const IssueBounty = ({ walletAddress }) => {
             }}
           >
             {
-              tokenVersion !== 0 && (
+              (tokenVersion !== 0 && tokenVersion !== 20) && (
                 <TextField value={token} onChange={e => setToken(e.target.value)} label="token address" fullWidth />
               )
             }
