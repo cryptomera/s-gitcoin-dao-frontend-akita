@@ -1,10 +1,82 @@
-import { Grid, TextField, Typography, Card, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Grid, TextField, Typography, Card, Box, FormControl, InputLabel, Select, MenuItem, Button, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-const Bounty = () => {
+import DeleteIcon from '@mui/icons-material/Delete';
+import { bountyWeb3 } from '../utils/ethers.util';
+import { address } from '../utils/ethers.util';
+const Bounty = ({walletAddress}) => {
   const [deadline, setDeadline] = useState('');
+  const [tokenVersion, setTokenVersion] = useState(0);
+  const [issuers, setIssures] = useState(['']);
+  const [approvers, setApprovers] = useState(['']);
+  const [token, setToken] = useState('');
+
+  const addNewIssuer = () => {
+    setIssures([...issuers, '']);
+  }
+
+  const addNewApprover = () => {
+    setApprovers([...approvers, '']);
+  }
+
+  const removeIssuer = (index) => {
+    if (issuers.length > 1) {
+      let array = [...issuers];
+      array.splice(index, 1);
+      setIssures(array);
+    }
+  }
+
+  const removeApprover = (index) => {
+    if (approvers.length > 1) {
+      let array = [...approvers];
+      array.splice(index, 1);
+      setApprovers(array);
+    }
+  }
+
+
+  const issuerHandler = (e, i) => {
+    let array = [...issuers];
+    array[i] = e.target.value;
+    setIssures(array);
+  }
+
+  const approverHandler = (e, i) => {
+    let array = [...approvers];
+    array[i] = e.target.value;
+    setApprovers(array);
+  }
+
+  const issueBounty = async () => {
+    const deadBlock = new Date(deadline).getTime() / 1000;
+    let token1, token2;
+    if(tokenVersion === 0) {
+      token1 = '';
+      token2 = '';
+    } else if (tokenVersion === 20) {
+      token1 = address['gtc'];
+      token2 = '';
+    } else if (tokenVersion === 10 ) {
+      token2 = token;
+      token1 = '';
+    } else {
+      token1 = address['gtc'];
+      token2 = token;
+    }
+    await bountyWeb3.issueBounty(
+      walletAddress,
+      issuers,
+      approvers,
+      deadBlock,
+      token1,
+      token2,
+      tokenVersion
+    );
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>
@@ -14,11 +86,16 @@ const Bounty = () => {
           }}
         >
           <Box
-            sx={{ mb: '30px' }}
+            sx={{ 
+              mb: '30px',
+              display: 'flex' 
+            }}
           >
             <Typography variant='h6' component='h6'>
               Issue Bounty
             </Typography>
+            <Box sx={{flexGrow: 1}}></Box>
+            <Button onClick={issueBounty} variant='contained'>Issue Bounty</Button>
           </Box>
           <Box>
             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -33,12 +110,18 @@ const Bounty = () => {
             </LocalizationProvider>
           </Box>
           <Box
-            sx={{mt: '10px'}}
+            sx={{ mt: '10px' }}
           >
             <FormControl fullWidth>
               <InputLabel>Mode</InputLabel>
-              <Select>
-                <MenuItem></MenuItem>
+              <Select
+                value={tokenVersion}
+                onChange={e => setTokenVersion(e.target.value)}
+              >
+                <MenuItem value={0}>BNB</MenuItem>
+                <MenuItem value={20}>TOKEN</MenuItem>
+                <MenuItem value={10}>BNB & TOKEN</MenuItem>
+                <MenuItem value={11}>AKITA & TOKEN</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -47,17 +130,55 @@ const Bounty = () => {
               mt: '10px'
             }}
           >
-            <TextField label="token address" fullWidth />
+            {
+              tokenVersion !== 0 && (
+                <TextField value={token} onChange={e => setToken(e.target.value)} label="token address" fullWidth />
+              )
+            }
           </Box>
+          {/* issuers */}
           <Box
-            sx={{
-              mt: '10px'
-            }}
+            sx={{ my: '10px' }}
           >
-            <TextField label="token address" fullWidth />
+            {
+              issuers.map((issuer, i) => (
+                <Grid sx={{ mb: '10px' }} key={i} container spacing={2}>
+                  <Grid item xs={10}>
+                    <TextField onChange={e => issuerHandler(e, i)} label="Issure address" value={issuer} fullWidth />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <IconButton onClick={() => removeIssuer(i)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              ))
+            }
           </Box>
           <Box>
-
+            <Button fullWidth variant='contained' onClick={addNewIssuer}>add</Button>
+          </Box>
+          {/* approvers */}
+          <Box
+            sx={{ my: '10px' }}
+          >
+            {
+              approvers.map((approver, i) => (
+                <Grid sx={{ mb: '10px' }} key={i} container spacing={2}>
+                  <Grid item xs={10}>
+                    <TextField onChange={e => approverHandler(e, i)} label="Approver address" value={approver} fullWidth />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <IconButton onClick={() => removeApprover(i)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              ))
+            }
+          </Box>
+          <Box>
+            <Button fullWidth variant='contained' onClick={addNewApprover}>add</Button>
           </Box>
         </Card>
       </Grid>

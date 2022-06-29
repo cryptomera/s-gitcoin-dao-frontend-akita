@@ -2,10 +2,12 @@ import { ethers } from "ethers"
 import { network } from "./network.util"
 import GAkita from '../contracts/GAkita.sol/GAkita.json';
 import Airdrop from '../contracts/AkitaAirdrop.sol/AkitaAirdrop.json';
+import Bounty from '../contracts/AkitaBounty.sol/AkitaBounty.json';
 
 export const address = {
   gtc: "0xD0132ed340E8eB47A984EF9d69c292F7414eC8f2",
-  airdrop: "0x0100e4D763bA57C0DCAa5E3D4cBb5A51f65e2846"
+  airdrop: "0x0100e4D763bA57C0DCAa5E3D4cBb5A51f65e2846",
+  bounty: "0xAa33efd126a446a1F518880bBEA0Ce3a740f5C39"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
@@ -14,6 +16,8 @@ const signer = web3Provider.getSigner();
 // contracts
 export const gtc = new ethers.Contract(address['gtc'], GAkita.abi, provider);
 export const getWeb3 = new ethers.Contract(address['gtc'], GAkita.abi, signer);
+export const bountyWeb3 = new ethers.Contract(address['bounty'], Bounty.abi, signer);
 
 export const airdrop = new ethers.Contract(address['airdrop'], Airdrop.abi, provider);
 export const airdropWeb3 = new ethers.Contract(address['airdrop'], Airdrop.abi, signer);
+export const bounty = new ethers.Contract(address['bounty'], Bounty.abi, provider);

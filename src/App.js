@@ -39,7 +39,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/airdrop"/>} />
             <Route path="/airdrop" element={<Airdrop />} />
-            <Route path="/bounty" element={<Bounty />} />
+            <Route path="/bounty" element={<Bounty walletAddress={walletAddress} />} />
           </Routes>
         </Box>
       </BrowserRouter>
