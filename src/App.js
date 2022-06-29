@@ -13,6 +13,7 @@ import Promotions from "./components/Promotions";
 import Airdrop from "./components/Airdrop";
 import IssueBounty from "./components/IssueBounty";
 import { useState } from "react";
+import Bounties from "./components/Bounties";
 function App() {
   const [walletAddress, setWalletAddress] = useState();
   const connectWallet = async () => {
@@ -40,6 +41,7 @@ function App() {
             <Route path="/" element={<Navigate to="/airdrop"/>} />
             <Route path="/airdrop" element={<Airdrop />} />
             <Route path="/issue" element={<IssueBounty walletAddress={walletAddress} />} />
+            <Route path="/bounties" element={<Bounties />}/>
           </Routes>
         </Box>
       </BrowserRouter>

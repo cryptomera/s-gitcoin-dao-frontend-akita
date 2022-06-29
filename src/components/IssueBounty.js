@@ -12,19 +12,7 @@ const IssueBounty = ({ walletAddress }) => {
   const [issuers, setIssures] = useState(['']);
   const [approvers, setApprovers] = useState(['']);
   const [token, setToken] = useState('');
-  const [bounties, setBounties] = useState('');
-
-  useEffect(() => {
-    async function getBounties() {
-      const numBounties = await bounty.numBounties();
-      for(let i = 0; i < numBounties.toNumber(); i++) {
-        const aBounty = await bounty.bounties(i);
-        console.log(aBounty);
-      }
-    }
-    getBounties();
-  }, []);
-
+ 
   const addNewIssuer = () => {
     setIssures([...issuers, '']);
   }
