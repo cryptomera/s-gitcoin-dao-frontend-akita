@@ -2,6 +2,7 @@ import { Grid, Card } from '@mui/material';
 import { formatEther } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
 import { bounty } from '../utils/ethers.util';
+import { Link } from 'react-router-dom';
 
 const Bounties = () => {
   const [bountyList, setBountyList] = useState([]);
@@ -32,66 +33,68 @@ const Bounties = () => {
       {
         bountyList.map((aBounty, i) => (
           <Grid key={i} item xs={4}>
-            <Card sx={{ p: '20px' }}>
-              <Grid container spacing={2}>
-                <Grid item xs={4}>
-                  Type
-                </Grid>
-                <Grid item xs={8}>
-                  {aBounty.tokenVersion}
-                </Grid>
-                {
-                  (aBounty.tokenVersion !== 0 && aBounty.tokenVersion !== 20) && (
-                    <>
+            <Link to={`/contributeanddrain?id=${i}`}>
+              <Card sx={{ p: '20px', cursor: 'pointer' }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    Type
+                  </Grid>
+                  <Grid item xs={8}>
+                    {aBounty.tokenVersion}
+                  </Grid>
+                  {
+                    (aBounty.tokenVersion !== 0 && aBounty.tokenVersion !== 20) && (
+                      <>
+                        <Grid item xs={4}>
+                          Token
+                        </Grid>
+                        <Grid item xs={8}>
+                          {aBounty.token2}
+                        </Grid>
+                      </>
+                    )
+                  }
+                  {
+                    (aBounty.tokenVersion === 10 || aBounty.tokenVersion === 0) ? (
                       <Grid item xs={4}>
-                        Token
+                        BNB Balance
                       </Grid>
-                      <Grid item xs={8}>
-                        {aBounty.token2}
-                      </Grid>
-                    </>
-                  )
-                }
-                {
-                  (aBounty.tokenVersion === 10 || aBounty.tokenVersion === 0) ? (
-                    <Grid item xs={4}>
-                      BNB Balance
-                    </Grid>
-                  ) : (
-                    <Grid item xs={4}>
-                      AKITA Balance
-                    </Grid>
-                  )
-                }
-                <Grid item xs={8}>
-                  { aBounty.balance1 }
-                </Grid>
-                {
-                  (aBounty.tokenVersion === 10 || aBounty.tokenVersion === 11) && (
-                    <>
+                    ) : (
                       <Grid item xs={4}>
-                        Token Balance
+                        AKITA Balance
                       </Grid>
-                      <Grid item xs={8}>
-                        { aBounty.balance2 }
-                      </Grid>
-                    </>
-                  )
-                }
-                <Grid item xs={4}>
-                  Deadline
+                    )
+                  }
+                  <Grid item xs={8}>
+                    {aBounty.balance1}
+                  </Grid>
+                  {
+                    (aBounty.tokenVersion === 10 || aBounty.tokenVersion === 11) && (
+                      <>
+                        <Grid item xs={4}>
+                          Token Balance
+                        </Grid>
+                        <Grid item xs={8}>
+                          {aBounty.balance2}
+                        </Grid>
+                      </>
+                    )
+                  }
+                  <Grid item xs={4}>
+                    Deadline
+                  </Grid>
+                  <Grid item xs={8}>
+                    {aBounty.deadBlock}
+                  </Grid>
+                  <Grid item xs={4}>
+                    Paid Out
+                  </Grid>
+                  <Grid item xs={8}>
+                    {aBounty.hasPaidout}
+                  </Grid>
                 </Grid>
-                <Grid item xs={8}>
-                  { aBounty.deadBlock }
-                </Grid>
-                <Grid item xs={4}>
-                  Paid Out
-                </Grid>
-                <Grid item xs={8}>
-                  { aBounty.hasPaidout }
-                </Grid>
-              </Grid>
-            </Card>
+              </Card>
+            </Link>
           </Grid>
         ))
       }

@@ -12,8 +12,9 @@ import Tutor from "./components/Tutor";
 import Promotions from "./components/Promotions";
 import Airdrop from "./components/Airdrop";
 import IssueBounty from "./components/IssueBounty";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Bounties from "./components/Bounties";
+import ContributeAndDrain from "./components/ContributeAndDrain";
 function App() {
   const [walletAddress, setWalletAddress] = useState();
   const connectWallet = async () => {
@@ -22,6 +23,7 @@ function App() {
       setWalletAddress(account);
     }
   }
+  
   return (
     <Box
       sx={{
@@ -42,6 +44,7 @@ function App() {
             <Route path="/airdrop" element={<Airdrop />} />
             <Route path="/issue" element={<IssueBounty walletAddress={walletAddress} />} />
             <Route path="/bounties" element={<Bounties />}/>
+            <Route path="/contributeanddrain" element={<ContributeAndDrain walletAddress={walletAddress} />} />
           </Routes>
         </Box>
       </BrowserRouter>
