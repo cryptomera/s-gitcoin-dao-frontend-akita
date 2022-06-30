@@ -14,7 +14,7 @@ const Bounties = () => {
       setBountyCounts(bountyCounts);
       let array = [];
       for (let i = 0; i < numBounties.toNumber(); i++) {
-        const aBounty = await bounty.bounties(i);
+        const aBounty = await bounty.getBounty(i);
         array.push({
           tokenVersion: aBounty.tokenVersion.toNumber(),
           deadBlock: aBounty.deadline.toNumber(),

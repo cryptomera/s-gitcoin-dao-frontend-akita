@@ -12,13 +12,17 @@ import moment from 'moment';
 const ContributeAndDrain = ({walletAddress}) => {
   const [bountyInfo, setBountyInfo] = useState();
   const [amoutIn, setAmountIn] = useState(0);
+  const [amountOut, setAmountOut] = useState(0);
   const [bountyId, setBountyId] = useState();
+  const [issuers, setIssuers] = useState([]);
   const [searchParams] = useSearchParams();
   useEffect(() => {
     async function getBounty() {
       const id = searchParams.get('id');
       setBountyId(id);
-      const theBounty = await bounty.bounties(id);
+      const theBounty = await bounty.getBounty(id);
+      const issuerList = await bounty.getIssuers(id);
+      setIssuers(issuerList);
       setBountyInfo({
         tokenVersion: theBounty.tokenVersion.toNumber(),
         deadBlock: theBounty.deadline.toNumber(),
@@ -31,6 +35,11 @@ const ContributeAndDrain = ({walletAddress}) => {
     }
     getBounty();
   }, []);
+
+  const getIssuerId = () => {
+    const index = issuers.findIndex(issuer => issuer.toLowerCase() === walletAddress.toLowerCase());
+    return index;
+  }
 
   const callContribute = async (value) => {
     await bountyWeb3.contribute(
@@ -64,6 +73,16 @@ const ContributeAndDrain = ({walletAddress}) => {
     }
   }
 
+  const drain = async () => {
+    const issuerId = getIssuerId();
+    await bountyWeb3.drainBounty(
+      walletAddress,
+      bountyId,
+      issuerId,
+      [parseEther(String(amountOut))]
+    );
+  }
+
 
   const getBountyType = (version) => {
     if (version === 0) {
@@ -84,7 +103,7 @@ const ContributeAndDrain = ({walletAddress}) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         {
           !!bountyInfo && (
             <Card
@@ -159,11 +178,11 @@ const ContributeAndDrain = ({walletAddress}) => {
           )
         }
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         <Card sx={{p: '20px'}}>
           <Box sx={{ mb: '20px' }}>
             <Typography variant='h5' component='h5'>
-              Contribute
+              Contribute & Drain
             </Typography>
           </Box>
           <Box>
@@ -171,6 +190,12 @@ const ContributeAndDrain = ({walletAddress}) => {
           </Box>
           <Box sx={{my: '10px'}}>
             <Button variant="contained" onClick={contribute} fullWidth>Contribute</Button>
+          </Box>
+          <Box>
+            <TextField value={amountOut} onChange={e => setAmountOut(e.target.value)} label="Amount"  fullWidth/>
+          </Box>
+          <Box sx={{my: '10px'}}>
+            <Button variant="contained" onClick={drain} fullWidth>Drain</Button>
           </Box>
         </Card>
       </Grid>

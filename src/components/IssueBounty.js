@@ -6,6 +6,9 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { bounty, bountyWeb3 } from '../utils/ethers.util';
 import { address } from '../utils/ethers.util';
+
+const zeroAddress = '0x0000000000000000000000000000000000000000';
+
 const IssueBounty = ({ walletAddress }) => {
   const [deadline, setDeadline] = useState('');
   const [tokenVersion, setTokenVersion] = useState(0);
@@ -54,18 +57,19 @@ const IssueBounty = ({ walletAddress }) => {
     const deadBlock = new Date(deadline).getTime() / 1000;
     let token1, token2;
     if (tokenVersion === 0) {
-      token1 = '';
-      token2 = '';
+      token1 = zeroAddress;
+      token2 = zeroAddress;
     } else if (tokenVersion === 20) {
       token1 = address['gtc'];
-      token2 = '';
+      token2 = zeroAddress;
     } else if (tokenVersion === 10) {
       token2 = token;
-      token1 = '';
+      token1 = zeroAddress;
     } else {
       token1 = address['gtc'];
       token2 = token;
     }
+
     await bountyWeb3.issueBounty(
       walletAddress,
       issuers,
@@ -184,6 +188,8 @@ const IssueBounty = ({ walletAddress }) => {
           </Box>
         </Card>
       </Grid>
+      <Grid item xs={3}></Grid>
+      <Grid item xs={3}></Grid>
     </Grid >
   );
 }

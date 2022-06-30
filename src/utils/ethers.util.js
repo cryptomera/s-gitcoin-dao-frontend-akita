@@ -7,7 +7,7 @@ import Bounty from '../contracts/AkitaBounty.sol/AkitaBounty.json';
 export const address = {
   gtc: "0xD0132ed340E8eB47A984EF9d69c292F7414eC8f2",
   airdrop: "0x0100e4D763bA57C0DCAa5E3D4cBb5A51f65e2846",
-  bounty: "0xAa33efd126a446a1F518880bBEA0Ce3a740f5C39"
+  bounty: "0xFA8d90C7A499EFD50C3557127343698C7B9D66C5"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
