@@ -32,13 +32,13 @@ const Bounties = () => {
       {
         bountyList.map((aBounty, i) => (
           <Grid key={i} item xs={4}>
-            <Card sx={{p: '20px'}}>
+            <Card sx={{ p: '20px' }}>
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   Type
                 </Grid>
                 <Grid item xs={8}>
-                  { aBounty.tokenVersion}
+                  {aBounty.tokenVersion}
                 </Grid>
                 {
                   (aBounty.tokenVersion !== 0 && aBounty.tokenVersion !== 20) && (
@@ -47,14 +47,49 @@ const Bounties = () => {
                         Token
                       </Grid>
                       <Grid item xs={8}>
-                        { aBounty.token2 }
+                        {aBounty.token2}
                       </Grid>
                     </>
                   )
                 }
                 {
-                  
+                  (aBounty.tokenVersion === 10 || aBounty.tokenVersion === 0) ? (
+                    <Grid item xs={4}>
+                      BNB Balance
+                    </Grid>
+                  ) : (
+                    <Grid item xs={4}>
+                      AKITA Balance
+                    </Grid>
+                  )
                 }
+                <Grid item xs={8}>
+                  { aBounty.balance1 }
+                </Grid>
+                {
+                  (aBounty.tokenVersion === 10 || aBounty.tokenVersion === 11) && (
+                    <>
+                      <Grid item xs={4}>
+                        Token Balance
+                      </Grid>
+                      <Grid item xs={8}>
+                        { aBounty.balance2 }
+                      </Grid>
+                    </>
+                  )
+                }
+                <Grid item xs={4}>
+                  Deadline
+                </Grid>
+                <Grid item xs={8}>
+                  { aBounty.deadBlock }
+                </Grid>
+                <Grid item xs={4}>
+                  Paid Out
+                </Grid>
+                <Grid item xs={8}>
+                  { aBounty.hasPaidout }
+                </Grid>
               </Grid>
             </Card>
           </Grid>
