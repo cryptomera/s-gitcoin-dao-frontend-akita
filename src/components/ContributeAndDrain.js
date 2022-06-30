@@ -1,18 +1,23 @@
-import { Card, Grid, Typography } from '@mui/material';
+import { Card, Grid, TextField, Typography, Button } from '@mui/material';
 import { Box } from '@mui/system';
-import { formatEther } from 'ethers/lib/utils';
+import { formatEther, parseEther } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { bounty } from '../utils/ethers.util';
+import { address, bounty, bountyWeb3, gtcWeb3, tokenWeb3 } from '../utils/ethers.util';
 import moment from 'moment';
 
 
-const ContributeAndDrain = () => {
+
+
+const ContributeAndDrain = ({walletAddress}) => {
   const [bountyInfo, setBountyInfo] = useState();
+  const [amoutIn, setAmountIn] = useState(0);
+  const [bountyId, setBountyId] = useState();
   const [searchParams] = useSearchParams();
   useEffect(() => {
     async function getBounty() {
       const id = searchParams.get('id');
+      setBountyId(id);
       const theBounty = await bounty.bounties(id);
       setBountyInfo({
         tokenVersion: theBounty.tokenVersion.toNumber(),
@@ -26,6 +31,39 @@ const ContributeAndDrain = () => {
     }
     getBounty();
   }, []);
+
+  const callContribute = async (value) => {
+    await bountyWeb3.contribute(
+      walletAddress,
+      bountyId,
+      parseEther(String(amoutIn), {value: parseEther(value)})
+    );
+  }
+
+  const contribute = async () => {
+    if(bountyInfo.tokenVersion === 20) {
+      await gtcWeb3.approve(address['bounty'], parseEther(String(amoutIn)));
+      gtcWeb3.once("Approval", () => {
+        callContribute('0');
+      })
+    } else if (bountyInfo.tokenVersion === 10) {
+      await tokenWeb3(bountyInfo.token2).approve(address['bounty'], parseEther(String(amoutIn / 2)));
+      tokenWeb3(bountyInfo.token2).once("Approval", async() => {
+        callContribute(String(amoutIn / 2));
+      })
+    } else if (bountyInfo.tokenVersion === 11) {
+      await gtcWeb3.approve(address['bounty'], parseEther(String(amoutIn / 2)));
+      gtcWeb3.once("Approval", async() => {
+        await tokenWeb3(bountyInfo.token2).approve(address['bounty'], parseEther(String(amoutIn / 2)));
+        tokenWeb3(bountyInfo.token2).once("Approval", () => {
+          callContribute('0');
+        })
+      })
+    } else {
+      callContribute(String(amoutIn));
+    }
+  }
+
 
   const getBountyType = (version) => {
     if (version === 0) {
@@ -54,7 +92,7 @@ const ContributeAndDrain = () => {
                 p: '20px'
               }}
             >
-              <Box sx={{mb: '20px'}}>
+              <Box sx={{ mb: '20px' }}>
                 <Typography variant='h5' component='h5'>
                   Bounty Information
                 </Typography>
@@ -120,6 +158,21 @@ const ContributeAndDrain = () => {
             </Card>
           )
         }
+      </Grid>
+      <Grid item xs={4}>
+        <Card sx={{p: '20px'}}>
+          <Box sx={{ mb: '20px' }}>
+            <Typography variant='h5' component='h5'>
+              Contribute
+            </Typography>
+          </Box>
+          <Box>
+            <TextField value={amoutIn} onChange={e => setAmountIn(e.target.value)} label="Amount"  fullWidth/>
+          </Box>
+          <Box sx={{my: '10px'}}>
+            <Button variant="contained" onClick={contribute} fullWidth>Contribute</Button>
+          </Box>
+        </Card>
       </Grid>
     </Grid>
   )
