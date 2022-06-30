@@ -3,6 +3,7 @@ import { formatEther } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
 import { bounty } from '../utils/ethers.util';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const Bounties = () => {
   const [bountyList, setBountyList] = useState([]);
@@ -28,19 +29,36 @@ const Bounties = () => {
     }
     getBounties();
   }, []);
+
+  const getDeadline = (deadBlock) => {
+    const date = new Date(deadBlock * 1000);
+    return moment(date).format('MMMM d, YYYY');
+  }
+
+  const getBountyType = (version) => {
+    if (version === 0) {
+      return 'BNB'
+    } else if (version === 20) {
+      return 'AKITA'
+    } else if (version === 10) {
+      return 'BNB & TOKEN'
+    } else {
+      return 'AKITA & TOKEN'
+    }
+  }
   return (
     <Grid container spacing={2}>
       {
         bountyList.map((aBounty, i) => (
           <Grid key={i} item xs={4}>
-            <Link to={`/contributeanddrain?id=${i}`}>
+            <Link style={{textDecoration: 'none'}} to={`/contributeanddrain?id=${i}`}>
               <Card sx={{ p: '20px', cursor: 'pointer' }}>
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     Type
                   </Grid>
                   <Grid item xs={8}>
-                    {aBounty.tokenVersion}
+                    {getBountyType(aBounty.tokenVersion)}
                   </Grid>
                   {
                     (aBounty.tokenVersion !== 0 && aBounty.tokenVersion !== 20) && (
@@ -84,7 +102,7 @@ const Bounties = () => {
                     Deadline
                   </Grid>
                   <Grid item xs={8}>
-                    {aBounty.deadBlock}
+                    {getDeadline(aBounty.deadBlock)}
                   </Grid>
                   <Grid item xs={4}>
                     Paid Out
