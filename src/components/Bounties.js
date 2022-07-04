@@ -32,7 +32,7 @@ const Bounties = () => {
 
   const getDeadline = (deadBlock) => {
     const date = new Date(deadBlock * 1000);
-    return moment(date).format('MMMM d, YYYY');
+    return moment(date).format('MMMM DD, YYYY');
   }
 
   const getBountyType = (version) => {

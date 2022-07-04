@@ -39,6 +39,9 @@ const Header = ({ walletAddress, connectWallet }) => {
         <Button>
           <Link style={{color: 'white', textDecoration: 'none'}} to="/issue">Issue Bounty</Link>
         </Button>
+        <Button>
+          <Link style={{color: 'white', textDecoration: 'none'}} to="/treasury">Treasury</Link>
+        </Button>
       </Box>
       <Box sx={{ flexGrow: 1 }}></Box>
       <Button onClick={connectWallet} sx={{ width: '200px' }} variant='contained'>

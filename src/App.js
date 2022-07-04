@@ -15,6 +15,7 @@ import IssueBounty from "./components/IssueBounty";
 import { useEffect, useState } from "react";
 import Bounties from "./components/Bounties";
 import ContributeAndDrain from "./components/ContributeAndDrain";
+import Treasury from "./components/Treasury";
 function App() {
   const [walletAddress, setWalletAddress] = useState();
   const connectWallet = async () => {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/issue" element={<IssueBounty walletAddress={walletAddress} />} />
             <Route path="/bounties" element={<Bounties />}/>
             <Route path="/contributeanddrain" element={<ContributeAndDrain walletAddress={walletAddress} />} />
+            <Route path="/treasury" element={<Treasury walletAddress={walletAddress}/>} />
           </Routes>
         </Box>
       </BrowserRouter>

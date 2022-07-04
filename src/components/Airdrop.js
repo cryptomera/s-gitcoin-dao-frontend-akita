@@ -37,10 +37,12 @@ const Airdrop = () => {
       addresses.push(airdrop.address);
       amounts.push(parseEther(String(airdrop.amount)));
     });
-    await airdropWeb3.dropTokens(
+    const tx = await airdropWeb3.dropTokens(
       addresses,
       amounts
     );
+    await tx.wait();
+    window.alert("You get Tokens from airdrop.");
   }
 
   const airdropAddressHandler = (index, e) => {
@@ -56,7 +58,9 @@ const Airdrop = () => {
   }
 
   const addToWhiteList = async () => {
-    await airdropWeb3.addWhitelist(newAddress);
+    const tx = await airdropWeb3.addWhitelist(newAddress);
+    await tx.wait();
+    window.alert("Your address is registered.");
   }
   return (
     <Box

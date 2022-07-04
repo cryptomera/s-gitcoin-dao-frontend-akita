@@ -42,11 +42,13 @@ const ContributeAndDrain = ({walletAddress}) => {
   }
 
   const callContribute = async (value) => {
-    await bountyWeb3.contribute(
+    const tx = await bountyWeb3.contribute(
       walletAddress,
       bountyId,
       parseEther(String(amoutIn), {value: parseEther(value)})
     );
+    await tx.wait();
+    window.alert("Contributed");
   }
 
   const contribute = async () => {
@@ -75,12 +77,14 @@ const ContributeAndDrain = ({walletAddress}) => {
 
   const drain = async () => {
     const issuerId = getIssuerId();
-    await bountyWeb3.drainBounty(
+    const tx = await bountyWeb3.drainBounty(
       walletAddress,
       bountyId,
       issuerId,
       [parseEther(String(amountOut))]
     );
+    await tx.wait();
+    window.alert("You got the bounty");
   }
 
 
@@ -98,7 +102,7 @@ const ContributeAndDrain = ({walletAddress}) => {
 
   const getDeadline = (deadBlock) => {
     const date = new Date(deadBlock * 1000);
-    return moment(date).format('MMMM d, YYYY');
+    return moment(date).format('MMMM DD, YYYY');
   }
 
   return (

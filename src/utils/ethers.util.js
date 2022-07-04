@@ -3,11 +3,13 @@ import { network } from "./network.util"
 import GAkita from '../contracts/GAkita.sol/GAkita.json';
 import Airdrop from '../contracts/AkitaAirdrop.sol/AkitaAirdrop.json';
 import Bounty from '../contracts/AkitaBounty.sol/AkitaBounty.json';
+import Treasury from '../contracts/TreasuryVester.sol/TreasuryVester.json';
 
 export const address = {
-  gtc: "0xD0132ed340E8eB47A984EF9d69c292F7414eC8f2",
-  airdrop: "0x0100e4D763bA57C0DCAa5E3D4cBb5A51f65e2846",
-  bounty: "0xFA8d90C7A499EFD50C3557127343698C7B9D66C5"
+  gtc: "0xF854E75B77d92d11579442cd9c36980Ed39fe68d",
+  airdrop: "0x9C2D0018986FEd97c5EFE7569020ea4108646740",
+  bounty: "0x13d0F0CE9701Da012fB08D027414395f983D0414",
+  treasury: "0xe15B7C662D5746949a45bD93749fbc06b3B46BB8"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
@@ -19,11 +21,14 @@ export const gtcWeb3 = new ethers.Contract(address['gtc'], GAkita.abi, signer);
 export const bountyWeb3 = new ethers.Contract(address['bounty'], Bounty.abi, signer);
 export const tokenWeb3 = (tokenAddress) => {
   const tokenContract = new ethers.Contract(tokenAddress, erc20Abi, signer);
+  return tokenContract;
 }
+export const treasuryWeb3 = new ethers.Contract(address['treasury'], Treasury.abi, signer);
 
 export const airdrop = new ethers.Contract(address['airdrop'], Airdrop.abi, provider);
 export const airdropWeb3 = new ethers.Contract(address['airdrop'], Airdrop.abi, signer);
 export const bounty = new ethers.Contract(address['bounty'], Bounty.abi, provider);
+export const treasury = new ethers.Contract(address['treasury'], Treasury.abi, provider);
 
 export const erc20Abi = [
   {
