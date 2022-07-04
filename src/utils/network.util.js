@@ -87,7 +87,7 @@ let currentNetwork = null;
 if (process.env.NODE_ENV === 'development') {
   currentNetwork = networkSettings[97];
 } else {
-  currentNetwork = networkSettings[250];
+  currentNetwork = networkSettings[97];
 }
 
 
