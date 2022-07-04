@@ -42,7 +42,7 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Navigate to="/airdrop"/>} />
-            <Route path="/airdrop" element={<Airdrop />} />
+            <Route path="/airdrop" element={<Airdrop walletAddress={walletAddress} />} />
             <Route path="/issue" element={<IssueBounty walletAddress={walletAddress} />} />
             <Route path="/bounties" element={<Bounties />}/>
             <Route path="/contributeanddrain" element={<ContributeAndDrain walletAddress={walletAddress} />} />

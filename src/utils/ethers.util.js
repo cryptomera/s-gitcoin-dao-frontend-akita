@@ -6,10 +6,10 @@ import Bounty from '../contracts/AkitaBounty.sol/AkitaBounty.json';
 import Treasury from '../contracts/TreasuryVester.sol/TreasuryVester.json';
 
 export const address = {
-  gtc: "0xF854E75B77d92d11579442cd9c36980Ed39fe68d",
-  airdrop: "0x9C2D0018986FEd97c5EFE7569020ea4108646740",
-  bounty: "0x13d0F0CE9701Da012fB08D027414395f983D0414",
-  treasury: "0xe15B7C662D5746949a45bD93749fbc06b3B46BB8"
+  gtc: "0xc9CA213529B0D5eFBA631650c0c6a0447907415f",
+  airdrop: "0x907B1D3b5f4968B4f6C711676790A7d775320853",
+  bounty: "0x1C7195d5b03523Ee635F93dC51b4F3b25f621CfE",
+  treasury: "0x41e3429dD67e9377d95E9C68999fE1d945f88Ca6"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
