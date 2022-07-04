@@ -1,7 +1,7 @@
 import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
 import { formatEther } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
-import { address, gtc, treasury } from '../utils/ethers.util';
+import { address, gtc, treasury, treasuryWeb3 } from '../utils/ethers.util';
 import moment from 'moment';
 
 const Treasury = ({walletAddress}) => {
@@ -10,6 +10,18 @@ const Treasury = ({walletAddress}) => {
   const [beginDate, setBeginDate] = useState();
   const [cliffDate, setCliffDate] = useState();
   const [endDate, setEndDate] = useState(); 
+
+  const setRecipientAddress = async () => {
+    const tx = await treasuryWeb3.setRecipient(recipient);
+    await tx.wait();
+    window.alert("Recipient address is setted");
+  }
+
+  const claim = async () => {
+    const tx = await treasuryWeb3.claim();
+    await tx.wait();
+    window.alert("Claimed");
+  }
 
   const getDate = (timestamp) => {
     const date = new Date(timestamp * 1000);
@@ -110,14 +122,14 @@ const Treasury = ({walletAddress}) => {
           <TextField value={recipient} onChange={e => setRecipient(e.target.value)} label="Input recipient address" fullWidth/>
         </Box>
         <Box>
-          <Button fullWidth variant='contained'>set</Button>
+          <Button onClick={setRecipientAddress} fullWidth variant='contained'>set</Button>
         </Box>
         <Box
           sx={{
             my: '10px'
           }}
         >
-          <Button fullWidth variant='contained'>unlock</Button>
+          <Button onClick={claim} fullWidth variant='contained'>unlock</Button>
         </Box>
       </Card>
     </Box>
