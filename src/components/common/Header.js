@@ -42,6 +42,9 @@ const Header = ({ walletAddress, connectWallet }) => {
         <Button>
           <Link style={{color: 'white', textDecoration: 'none'}} to="/treasury">Treasury</Link>
         </Button>
+        <Button>
+          <Link style={{color: 'white', textDecoration: 'none'}} to="/governor">Governor</Link>
+        </Button>
       </Box>
       <Box sx={{ flexGrow: 1 }}></Box>
       <Button onClick={connectWallet} sx={{ width: '200px' }} variant='contained'>
