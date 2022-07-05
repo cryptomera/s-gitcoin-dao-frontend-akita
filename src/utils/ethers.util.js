@@ -9,7 +9,7 @@ import Governor from '../contracts/AkitaGovernor.sol/AkitaGovernor.json';
 
 export const address = {
   gtc: "0xc9CA213529B0D5eFBA631650c0c6a0447907415f",
-  airdrop: "0x907B1D3b5f4968B4f6C711676790A7d775320853",
+  airdrop: "0xea86d452621Ad2C43e6DB0405903537cb6122EB6",
   bounty: "0x1C7195d5b03523Ee635F93dC51b4F3b25f621CfE",
   treasury: "0x41e3429dD67e9377d95E9C68999fE1d945f88Ca6",
   timelock: "0x8211426d59B3fa97306a04177AC1aC058565316A",
