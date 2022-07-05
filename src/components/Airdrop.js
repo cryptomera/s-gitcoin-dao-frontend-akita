@@ -9,7 +9,7 @@ import moment from 'moment';
 const emptyAirdrop = {
   address: '',
   amount: '0',
-  numOfVest: 0,
+  numOfVest: 1,
 }
 
 const Airdrop = ({ walletAddress }) => {

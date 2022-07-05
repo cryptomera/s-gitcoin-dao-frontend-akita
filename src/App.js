@@ -48,7 +48,7 @@ function App() {
             <Route path="/bounties" element={<Bounties />}/>
             <Route path="/contributeanddrain" element={<ContributeAndDrain walletAddress={walletAddress} />} />
             <Route path="/treasury" element={<Treasury walletAddress={walletAddress}/>} />
-            <Route path="/governor" element={<Governor />} />
+            <Route path="/governor" element={<Governor walletAddress={walletAddress} />} />
           </Routes>
         </Box>
       </BrowserRouter>
