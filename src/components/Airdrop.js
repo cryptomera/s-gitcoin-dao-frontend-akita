@@ -21,6 +21,7 @@ const Airdrop = ({ walletAddress }) => {
   const [userLocks, setUserLocks] = useState([]);
   const [indexList, setIndexList] = useState([]);
   const [unlockAmount, setUnlockAmount] = useState('0');
+  const [price, setPrice] = useState('');
 
   const getDate = (timestamp) => {
     const date = new Date(timestamp * 1000);
@@ -50,6 +51,12 @@ const Airdrop = ({ walletAddress }) => {
       getLocks();
     }
   }, [walletAddress])
+
+  const setGitCoinPrice = async () => {
+    const tx = await airdropWeb3.setPrice(parseEther(price));
+    await tx.wait();
+    window.alert("Price is changend.");
+  }
 
   const buyGit = async () => {
     const price = await airdrop.price();
@@ -212,7 +219,7 @@ const Airdrop = ({ walletAddress }) => {
         </Grid>
         <Grid item xs={6}>
           <Box>
-            <TextField value={unlockAmount} onChange={e => setUnlockAmount(e.target.value)} label="Unlock Amount" fullWidth/>
+            <TextField value={unlockAmount} onChange={e => setUnlockAmount(e.target.value)} label="Unlock Amount" fullWidth />
           </Box>
           {
             userLocks.map((lock, i) => (
@@ -247,6 +254,29 @@ const Airdrop = ({ walletAddress }) => {
               </Card>
             ))
           }
+        </Grid>
+        <Grid item xs={6}>
+          <Card
+            sx={{
+              p: '30px'
+            }}
+          >
+            <Box>
+              <Typography variant='h6' component='h6'>
+                Set GitCoin Price
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                my: '20px'
+              }}
+            >
+              <TextField value={price} onChange={e => setPrice(e.target.value)} label="price" fullWidth />
+            </Box>
+            <Box>
+              <Button onClick={setGitCoinPrice} fullWidth variant='contained'>set</Button>
+            </Box>
+          </Card>
         </Grid>
       </Grid>
     </Box>
