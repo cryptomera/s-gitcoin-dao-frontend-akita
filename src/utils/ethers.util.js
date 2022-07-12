@@ -13,7 +13,7 @@ export const address = {
   bounty: "0x1C7195d5b03523Ee635F93dC51b4F3b25f621CfE",
   treasury: "0x95E738B9C9745CF553470f24FD31D867768857DF",
   timelock: "0x3556B3BD4301bfF11D865E2C44212D6F8bfDa26b",
-  governor: "0xd1FDf8F8aB2B0D89b4f71435D2BC274F4D2Cd374"
+  governor: "0x87FdcDE41d72247bF07Fcdd9E3C5Ea1e6Eb9Dc78"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
