@@ -11,6 +11,10 @@ const Governor = ({ walletAddress }) => {
   const [newQuorum, setNewQuorum] = useState(0);
   const [period, setPeriod] = useState();
   const [newPeriod, setNewPeriod] = useState(0);
+  const [balance, setBalance] = useState();
+  const [supply, setSupply] = useState();
+  const [delegatee, setDelegatee] = useState('');
+  const [isDelegated, setIsDelegated] = useState();
 
   useEffect(() => {
     async function getInfos() {
@@ -22,12 +26,18 @@ const Governor = ({ walletAddress }) => {
     getInfos();
   }, []);
 
+  const delegate = async () => {
+    const tx = await gtcWeb3.delegate(delegatee);
+    await tx.wait();
+    const votes = await gtc.getVotes(walletAddress);
+    const power = Number(formatEther(votes)) / Number(supply) * 100;
+    setVotePower(power / 4 * 100);
+  }
+
   useEffect(() => {
     async function getPower() {
-      const balance = await gtc.balanceOf(walletAddress);
-      const supply = await gtc.totalSupply();
-      const power = Number(formatEther(balance)) / Number(formatEther(supply)) * 100;
-      setVotePower(power / 4 * 100);
+      const gsupply = await gtc.totalSupply();
+      setSupply(formatEther(gsupply));
     }
     getPower();
   }, [walletAddress]);
@@ -83,7 +93,6 @@ const Governor = ({ walletAddress }) => {
   }
 
   const voteClaim = async () => {
-    await gtcWeb3.delegate(walletAddress);
     const callDatas = [];
     callDatas.push(
       treasury.interface.encodeFunctionData("claim", [])
@@ -101,7 +110,6 @@ const Governor = ({ walletAddress }) => {
   }
 
   const voteQuorum = async () => {
-    await gtcWeb3.delegate(walletAddress);
     const callDatas = [];
     callDatas.push(
       governor.interface.encodeFunctionData("updateQuorumNumerator", [newQuorum])
@@ -120,7 +128,6 @@ const Governor = ({ walletAddress }) => {
 
   const voteNewPeriod = async () => {
     const votingPeriod = Math.ceil(13.2 * newPeriod);
-    await gtcWeb3.delegate(walletAddress);
     const callDatas = [];
     callDatas.push(
       governor.interface.encodeFunctionData("setVotingPeriod", [votingPeriod])
@@ -186,10 +193,18 @@ const Governor = ({ walletAddress }) => {
                 {quorum && `The quorum of governor is ${quorum}% of the total supply.`}
               </Box>
               <Box sx={{ my: '10px' }}>
-                {votePower && `Your voting power is ${votePower}%.`}
+                {period && `Vote period is ${period} hours`}
               </Box>
-              <Box sx={{ my: '10px'}}>
-                { period && `Vote period is ${period} hours`}
+              <Box sx={{ my: '10px' }}>
+                <Typography variant='h6' component='h6'>
+                  {votePower && `Your voting power is ${votePower}%.`}
+                </Typography>
+              </Box>
+              <Box sx={{ my: '10px' }}>
+                <TextField label="delegatee address" value={delegatee} onChange={e => setDelegatee(e.target.value)} fullWidth />
+              </Box>
+              <Box sx={{ my: '10px' }}>
+                <Button onClick={delegate} variant='contained' fullWidth>Delegate</Button>
               </Box>
             </Card>
           </Box>
