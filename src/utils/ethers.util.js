@@ -18,7 +18,7 @@ export const address = {
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
 const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = web3Provider.getSigner();
+export const signer = web3Provider.getSigner();
 // contracts
 export const gtc = new ethers.Contract(address['gtc'], GAkita.abi, provider);
 export const gtcWeb3 = new ethers.Contract(address['gtc'], GAkita.abi, signer);

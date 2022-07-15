@@ -2,8 +2,10 @@ import { Box, Grid, Card, Typography, TextField, Button, IconButton } from '@mui
 import DeleteIcon from '@mui/icons-material/Delete';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import React, { useEffect, useState } from 'react';
-import { airdrop, airdropWeb3 } from '../utils/ethers.util';
+import { airdrop, airdropWeb3, signer } from '../utils/ethers.util';
 import moment from 'moment';
+import { airdropService, uploadSerivce } from '../services/api.service';
+import { ethers } from 'ethers';
 
 
 const emptyAirdrop = {
@@ -22,10 +24,36 @@ const Airdrop = ({ walletAddress }) => {
   const [indexList, setIndexList] = useState([]);
   const [unlockAmount, setUnlockAmount] = useState('0');
   const [price, setPrice] = useState('');
+  const [excelPath, setExcelPath] = useState();
+
+  const excelRef = React.createRef();
 
   const getDate = (timestamp) => {
     const date = new Date(timestamp * 1000);
     return moment(date).format('MMMM DD, YYYY');
+  }
+
+  const bulkAirdrop = async () => {
+    const nonce = Math.ceil(Math.random() * 1000000);
+    const hash = await airdrop.getMessageHash(
+      walletAddress,
+      nonce
+    );
+    const sig = await signer.signMessage(ethers.utils.arrayify(hash));
+    await airdropService.airdrop({nonce: nonce, signature: sig});
+  }
+
+  const saveUsers = async () => {
+    const formData = new FormData();
+    formData.append('file', excelPath);
+    const response = await uploadSerivce.upload(formData);
+    const fileName = response.data;
+    const res = await airdropService.createUser({filename: fileName});
+    console.log(res.data);
+  }
+
+  const handleExcleUpload = async (file) => {
+    setExcelPath(file);
   }
 
   useEffect(() => {
@@ -275,6 +303,38 @@ const Airdrop = ({ walletAddress }) => {
             </Box>
             <Box>
               <Button onClick={setGitCoinPrice} fullWidth variant='contained'>set</Button>
+            </Box>
+          </Card>
+        </Grid>
+        <Grid item xs={6}>
+          <Card
+            sx={{
+              p: '30px'
+            }}
+          >
+            <Box>
+              <input
+                type="file"
+                ref={excelRef}
+                onChange={() =>
+                  handleExcleUpload(excelRef.current.files[0])
+                }
+                accept=".xlsx"
+              />
+            </Box>
+            <Box
+              sx={{
+                my: '10px'
+              }}
+            >
+              <Button onClick={saveUsers} variant='contained' fullWidth>save addresses</Button>
+            </Box>
+            <Box
+              sx={{
+                my: '10px'
+              }}
+            >
+              <Button onClick={bulkAirdrop} variant='contained' fullWidth>airdrop</Button>
             </Box>
           </Card>
         </Grid>
