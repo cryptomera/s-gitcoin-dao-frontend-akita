@@ -8,12 +8,11 @@ import Timelock from '../contracts/AkitaTimelock.sol/AkitaTimelock.json';
 import Governor from '../contracts/AkitaGovernor.sol/AkitaGovernor.json';
 
 export const address = {
-  gtc: "0x603a57ae7FBEe53EfD22103298dDb512545384a9",
-  airdrop: "0xbEab40075BbC083e198D13eDD87946D5dbbe90D4",
-  bounty: "0x1C7195d5b03523Ee635F93dC51b4F3b25f621CfE",
-  treasury: "0x95E738B9C9745CF553470f24FD31D867768857DF",
-  timelock: "0x3556B3BD4301bfF11D865E2C44212D6F8bfDa26b",
-  governor: "0x87FdcDE41d72247bF07Fcdd9E3C5Ea1e6Eb9Dc78"
+  gtc: "0xF339Deaf307F65F7A786CDB18cBf5130E8459291",
+  airdrop: "0x0a84a0fd89e58aa61D2b44FC2922171eD3295372",
+  bounty: "0xD98650277bA613BaF12540d231A3F436008238D7",
+  treasury: "0xFB477B1BD09561bC66DbeA1757A3CaaEBCA62515",
+  governor: "0xEFF7a41Ba90E82eCCA5882f8fbaA3C3f73C279Cc"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
@@ -28,14 +27,12 @@ export const tokenWeb3 = (tokenAddress) => {
   return tokenContract;
 }
 export const treasuryWeb3 = new ethers.Contract(address['treasury'], Treasury.abi, signer);
-export const timelockWeb3 = new ethers.Contract(address['timelock'], Timelock.abi, signer);
 export const governorWeb3 = new ethers.Contract(address['governor'], Governor.abi, signer); 
 
 export const airdrop = new ethers.Contract(address['airdrop'], Airdrop.abi, provider);
 export const airdropWeb3 = new ethers.Contract(address['airdrop'], Airdrop.abi, signer);
 export const bounty = new ethers.Contract(address['bounty'], Bounty.abi, provider);
 export const treasury = new ethers.Contract(address['treasury'], Treasury.abi, provider);
-export const timelock = new ethers.Contract(address['timelock'], Timelock.abi, provider);
 export const governor = new ethers.Contract(address['governor'], Governor.abi, provider); 
 
 export const erc20Abi = [
