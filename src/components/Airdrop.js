@@ -153,7 +153,7 @@ const Airdrop = ({ walletAddress }) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        {/* <Grid item xs={6}>
           <Card
             sx={{
               p: '30px'
@@ -172,7 +172,7 @@ const Airdrop = ({ walletAddress }) => {
               <Button onClick={addToWhiteList} variant='contained' fullWidth>Add</Button>
             </Box>
           </Card>
-        </Grid>
+        </Grid> */}
         <Grid item xs={6}>
           <Card
             sx={{

@@ -8,11 +8,11 @@ import Timelock from '../contracts/AkitaTimelock.sol/AkitaTimelock.json';
 import Governor from '../contracts/AkitaGovernor.sol/AkitaGovernor.json';
 
 export const address = {
-  gtc: "0x9DC70bdD573e96fCbb600D116Fba5039B5a38058",
-  airdrop: "0x74db6aD0826C52875D2E203E5D83CF79870A3E9E",
+  gtc: "0x98755a03673ec041126FDd434Ae5ffed50c2065a",
+  airdrop: "0xfAD23B90bc63C1452AB30531eA159162a9B1B519",
   bounty: "0xAaACC11af307933C9F74215fD6C6Ce875515C3C6",
-  treasury: "0x0e4247B740f3Ba76E50C9e397F14a24E2d6d1ECF",
-  governor: "0xA680cEd90A0b96DDf5D963c3EcB4B2605040B86D"
+  treasury: "0x900017295E87279aef2C4Dfb4f2Dc641Df3F63Ad",
+  governor: "0xcf95A543950Afb4e8d2C0aAd27Cd170F51BDAc96"
 }
 // providers
 const provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
