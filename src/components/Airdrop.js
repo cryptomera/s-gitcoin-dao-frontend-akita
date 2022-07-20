@@ -88,8 +88,9 @@ const Airdrop = ({ walletAddress }) => {
 
   const buyGit = async () => {
     const price = await airdrop.price();
-    const value = price.toNumber() * Number(amount);
-    await airdropWeb3.purchaseTokens(parseEther(amount), { value: value });
+    const etherPrice = Number(formatEther(price));
+    const value = etherPrice * Number(amount);
+    await airdropWeb3.purchaseTokens(parseEther(amount), { value: parseEther(String(value)) });
   }
 
   const removeAirdrop = (index) => {
