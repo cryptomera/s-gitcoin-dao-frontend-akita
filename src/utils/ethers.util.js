@@ -8,8 +8,8 @@ import Timelock from '../contracts/AkitaTimelock.sol/AkitaTimelock.json';
 import Governor from '../contracts/AkitaGovernor.sol/AkitaGovernor.json';
 
 export const address = {
-  gtc: "0x98755a03673ec041126FDd434Ae5ffed50c2065a",
-  airdrop: "0xfAD23B90bc63C1452AB30531eA159162a9B1B519",
+  gtc: "0x564e3ACD8Db23b36e7FE6EA41bA4d5A670097098",
+  airdrop: "0x2196ae450a5A00d07049E8e6dC353f585d69E374",
   bounty: "0xAaACC11af307933C9F74215fD6C6Ce875515C3C6",
   treasury: "0x900017295E87279aef2C4Dfb4f2Dc641Df3F63Ad",
   governor: "0xcf95A543950Afb4e8d2C0aAd27Cd170F51BDAc96"

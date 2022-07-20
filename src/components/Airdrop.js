@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { airdrop, airdropWeb3, signer } from '../utils/ethers.util';
 import moment from 'moment';
 import { airdropService, uploadSerivce } from '../services/api.service';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 
 const emptyAirdrop = {
@@ -88,7 +88,8 @@ const Airdrop = ({ walletAddress }) => {
 
   const buyGit = async () => {
     const price = await airdrop.price();
-    await airdropWeb3.purchaseTokens(parseEther(amount), { value: amount * Number(formatEther(price)) });
+    const value = price.toNumber() * Number(amount);
+    await airdropWeb3.purchaseTokens(parseEther(amount), { value: value });
   }
 
   const removeAirdrop = (index) => {
